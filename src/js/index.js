@@ -10,6 +10,8 @@ import "../styles/index.scss";
 
 //import your own components
 import { InputToDo } from "./component/InputToDo.js";
+import injectContext from "./store/appContext";
 
 //render your react application
-ReactDOM.render(<InputToDo />, document.querySelector("#app"));
+const LoQueSea = injectContext(InputToDo);
+ReactDOM.render(<LoQueSea />, document.querySelector("#app"));

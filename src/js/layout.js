@@ -10,6 +10,8 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
+import { InputToDo } from "./component/InputToDo.js";
+
 //create your first component
 export const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -22,10 +24,9 @@ export const Layout = () => {
 				<ScrollToTop>
 					<Navbar />
 					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route path="/demo" component={Demo} />
-						<Route path="/single/:theid" component={Single} />
-						<Route render={() => <h1>Not found!</h1>} />
+						<Route exact path="/" component={InputToDo} />
+						<Route exact path="/contactanos" component={InputToDo} />
+						<Route exact path="/sobre-nosotros" component={InputToDo} />
 					</Switch>
 					<Footer />
 				</ScrollToTop>

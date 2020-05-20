@@ -19,7 +19,6 @@ export class InputToDo extends React.Component {
 		this.submitMessage = this.submitMessage.bind(this);
 		this.deleteTask = this.deleteTask.bind(this);
 		//console.log("Propiedades", this.context);
-		const { store, actions } = this.context;
 	}
 
 	handleChange(event) {
@@ -59,7 +58,7 @@ export class InputToDo extends React.Component {
 							To Do List
 							<i className="fas fa-tasks" />
 						</h2>
-						<button type="button" className="btn btn-primary" onClick={s}>
+						<button type="button" className="btn btn-primary" onClick={null}>
 							Primary
 						</button>
 						<input
