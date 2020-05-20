@@ -21,8 +21,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			loadSomeData: () => {
 				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+                    fetch().then().then(data => setStore({ "foo": data.bar }))
+                    
+                */
+				fetch("https://assets.breatheco.de/apis/fake/todos/user/Asanchez2", {
+					method: "POST",
+					body: [],
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then(resp => {
+						console.log(resp);
+					})
+					.catch(error => {
+						//error handling
+						console.log(error);
+					});
 			},
 			changeColor: (index, color) => {
 				//get the store
