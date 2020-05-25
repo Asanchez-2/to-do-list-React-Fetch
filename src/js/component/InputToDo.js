@@ -1,92 +1,129 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, Component } from "react";
 
-//include bootstrap npm library into the bundle
-import "bootstrap";
+export const InputToDo = () => {
+	const [task, setTask] = useState("");
+	const [list, setList] = useState([{ label: "", done: false }]);
 
-import { Context } from "../store/appContext";
+	const handleChange = event => {
+		setTask(event.target.value);
+	};
 
-//create your first component
-export class InputToDo extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			input: "", //empty string text by default
-			messages: [] //empty array by default
-		};
+	const getList = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Asanchez2", {
+			method: "GET",
+			headers: {
+				"content-type": "application/json"
+			}
+		})
+			.then(res => res.json())
+			.then(response => {
+				setList(
+					response.map((item, index) => {
+						return item; //el map siempre debe llevar un                          return
+					})
+				);
+			});
+	};
 
-		this.handleChange = this.handleChange.bind(this);
-		this.keyPressed = this.keyPressed.bind(this);
-		this.submitMessage = this.submitMessage.bind(this);
-		this.deleteTask = this.deleteTask.bind(this);
-		//console.log("Propiedades", this.context);
-	}
+	const createList = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Asanchez2", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json"
+			},
+			body: []
+		})
+			.then(response => {
+				console.log(response);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
 
-	handleChange(event) {
-		this.setState({ input: event.target.value });
-	}
+	const updateList = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Asanchez2", {
+			method: "PUT",
+			headers: {
+				"content-type": "application/json"
+			},
+			body: JSON.stringify(list)
+		})
+			.then(response => {
+				console.log(response);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
 
-	keyPressed(event) {
-		if (event.key === "Enter" && event.target.value !== "") {
-			this.submitMessage();
-			event.preventDefault();
+	const deleteList = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Asanchez2", {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json"
+			}
+		})
+			.then(response => {
+				console.log(response);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	const handleSubmit = event => {
+		if (task.trim() && task.length !== 0) {
+			setList(list.concat({ label: task, done: false }));
+		} else {
+			alert("Task can not be empty");
 		}
-	}
+		console.log(list);
+		setTask("");
+		event.preventDefault();
+	};
 
-	submitMessage() {
-		this.setState({ messages: [...this.state.messages, this.state.input] }); // [...num1, num2] sirve para ...num1 donde lo quiero meter, num2 lo que quiero meter.
-		this.setState({ input: "" });
-	}
+	const removeTodo = index => {
+		const newTodos = [...list];
+		newTodos.splice(index, 1);
+		setList(newTodos);
+	};
+	updateList();
 
-	//deleteTask(i) {
-	//const messages = this.state.messages.filter((_, index) => index !== i);
-	//this.setState({ messages });
-	//}
+	useEffect(() => {
+		getList();
+	}, []);
 
-	deleteTask(item) {
-		const newMessages = this.state.messages.filter(messages => {
-			return messages !== item; //comparamos cada item que queremos eliminar con cada item del array "messages".
-		});
-		this.setState({ messages: [...newMessages] });
-	}
-
-	render() {
-		return (
-			<Context.Consumer>
-				{({ store, actions }) => (
-					<div className="container">
-						<h2 className="title">
-							To Do List
-							<i className="fas fa-tasks" />
-						</h2>
-						<button type="button" className="btn btn-primary" onClick={null}>
-							Primary
-						</button>
-						<input
-							className="divInput"
-							placeholder="What´s next to be done?"
-							onChange={this.handleChange}
-							onKeyPress={this.keyPressed}
-							value={this.state.input}
-						/>
-						<ul className="list-group">
-							{this.state.messages.map((item, i) => (
-								<li className="list-group-item d-flex" key={i}>
-									{item}
-									<i
-										//onClick={() => this.deleteTask(i)}
-										onClick={e => this.deleteTask(item)}
-										className="far fa-trash-alt ml-auto"
-									/>
-								</li>
-							))}
-							<div className="taskCounter">
-								You have <strong className="length">{this.state.messages.length} tasks to do </strong>
-							</div>
-						</ul>
-					</div>
-				)}
-			</Context.Consumer>
-		);
-	}
-}
-InputToDo.contextType = Context;
+	return (
+		<div className="container">
+			<h1 className="title">
+				To Do List
+				<i className="fas fa-tasks" />
+			</h1>
+			<form onSubmit={handleSubmit}>
+				<input
+					className="d-inline-block align-middle divInput"
+					type="text"
+					value={task}
+					onChange={handleChange}
+					placeholder="What´s next to be done?"
+				/>
+				<button className="btn btn-primary addTask" type="submit">
+					Add Task
+				</button>
+			</form>
+			<ul className="list-group">
+				{list.map((item, index) => (
+					<li className="list-group-item d-flex" key={index}>
+						{item.label}
+						<i onClick={removeTodo} className="far fa-trash-alt ml-auto" />
+					</li>
+				))}
+				<div className="taskCounter">
+					You have <strong className="length">{list.length} tasks to do </strong>
+				</div>
+			</ul>
+		</div>
+	);
+};
+export default InputToDo;

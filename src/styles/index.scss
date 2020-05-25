@@ -27,10 +27,8 @@ body {
 
 
 .divInput {
-    position: relative;
-    display: block;
-    width: 360px;
-    height: 50px;
+    width: 250px;
+    height: 40px;
     padding-top: 0.75rem;
     padding-right: 1.25rem;
     padding-bottom: 0.75rem;
@@ -40,7 +38,9 @@ body {
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;   
 }
-
+.addTask {
+    margin-left: 1rem;
+}
 .list-group-item {
     width: 360px;
     font-weight: bold;
@@ -73,4 +73,3 @@ body {
 .length {
     color: red;
 }
-
