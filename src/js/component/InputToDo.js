@@ -97,7 +97,7 @@ export const InputToDo = () => {
 	return (
 		<div className="container">
 			<h1 className="title">
-				To Do List
+				To Do List with Fetch
 				<i className="fas fa-tasks" />
 			</h1>
 			<form onSubmit={handleSubmit}>
